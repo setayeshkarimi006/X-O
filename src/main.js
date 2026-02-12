@@ -32,7 +32,7 @@ cells.forEach((cell) => {
     cell.textContent = currentPlayer;
 
     if (checkWinner() === setayeshPlayer) {
-      alert("congratulation ! player  ${currentPlayer} won !");
+      alert(` congratulation ! Player ${currentPlayer} wins!`);
       return;
     }
 
@@ -102,7 +102,7 @@ function checkWinner() {
       return cellValues[a]; 
     }
   }
-  
+
   return null; 
 }
 
