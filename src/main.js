@@ -1,6 +1,8 @@
 let currentPlayer = null,
   setayeshPlayer = null,
-  computerPlayer = null;
+  computerPlayer = null,
+  twoPlayersMode = false; 
+
 document.getElementById("chooseX").addEventListener("click", () => {
   setayeshPlayer = "X";
   computerPlayer = "O";
@@ -22,42 +24,58 @@ cells.forEach((cell) => {
       return;
     }
 
-    if (currentPlayer !== setayeshPlayer) return;
+    // if (currentPlayer !== setayeshPlayer) return;
 
     if (cell.textContent !== "") return;
 
-    cell.textContent = setayeshPlayer;
+    // cell.textContent = setayeshPlayer;
+    cell.textContent = currentPlayer;
 
     if (checkWinner() === setayeshPlayer) {
-      alert("congratulation you won ! where is you sweeties?");
+      alert("congratulation ! player  ${currentPlayer} won !");
       return;
     }
 
     if (checkDraw()) {
       alert("equal and opposite reaction !");
+      return;
     }
 
-    currentPlayer = computerPlayer;
+if(twoPlayersMode){
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
+   return;
+}
 
-    setTimeout(computerMove, 400);
-
+if (currentPlayer === setayeshPlayer) { 
+  currentPlayer = computerPlayer;
+   setTimeout(computerMove, 400);
+   }
     
   });
 });
+
+
+
 function computerMove() {
+  if (twoPlayersMode) return;
   const emptyCells = [...cells].filter((c) => c.textContent === "");
   if (emptyCells.length === 0) return;
+
   const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
   randomCell.textContent = computerPlayer;
   if (checkWinner() === computerPlayer) {
     alert("you are the loser qumarse ! there is not any hopefull with you.");
     return;
   }
+
   currentPlayer = setayeshPlayer;
 }
+
+
 function checkDraw() {
-  const allFilled = [...cells].every((c) => c.textContent !== "");
-  return allFilled;
+  /* const allFilled = [...cells].every((c) => c.textContent !== "");
+  return allFilled; */
+  return [...cells].every((c) => c.textContent !== "");
 }
 
 function checkWinner() {
@@ -76,8 +94,7 @@ function checkWinner() {
 
   for (let pattern of winPatterns) {
     const [a, b, c] = pattern;
-
-    if (
+   if (
       cellValues[a] !== "" &&
       cellValues[a] === cellValues[b] &&
       cellValues[a] === cellValues[c]
@@ -85,7 +102,7 @@ function checkWinner() {
       return cellValues[a]; 
     }
   }
-
+  
   return null; 
 }
 
@@ -93,10 +110,28 @@ document.getElementById("reset-btn").addEventListener("click", resetGame);
 
 function resetGame() {
   cells.forEach((cell) => (cell.textContent = ""));
-
-  currentPlayer = null;
+  /*currentPlayer = null;
   setayeshPlayer = null;
-  computerPlayer = null;
-
-  
+  computerPlayer = null; */
+  if (twoPlayersMode) { 
+    currentPlayer = "X"; 
+     setayeshPlayer = "X"; 
+     computerPlayer = null; 
+    } else { 
+      currentPlayer = null; 
+      setayeshPlayer = null; 
+      computerPlayer = null;
+     }  
 }
+
+document.getElementById("twoPlayer-btn").addEventListener("click", () => {
+   twoPlayersMode = !twoPlayersMode; 
+   if (twoPlayersMode) { alert("Let's go man ! two players mode activated!"); 
+    document.getElementById("twoPlayer-btn").textContent = "Single Player Mode";
+   } else { 
+    alert("Fine! single player mode activated!");
+    document.getElementById("twoPlayer-btn").textContent = "see! two players mode"; 
+  }
+   resetGame(); 
+  });
+

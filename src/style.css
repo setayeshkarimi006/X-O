@@ -65,10 +65,14 @@ h2 {
   width: 290px;
   height: 80px;
   background-color: rgb(206, 67, 199);
-  font-size: 30px;
+  font-size: 25px;
   border-radius: 18px;
   box-shadow: 10px;
-  margin-left: 232px;
+  gap: 40px;
+  padding: 20px 40px;
+  margin-top: 40px;
+  margin-left: 190px;
+   margin-right: 80px;
 }
 .h5{
   font-size: 20px;
